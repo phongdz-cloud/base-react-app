@@ -59,7 +59,7 @@ const DisplayInfo = (props) => {
                 <div>My name's {user.name} </div>
                 <div>My age's {user.age} </div>
                 <div>
-                  <button onClick={() => this.props.handleDeleteUser(user.id)}>
+                  <button onClick={() => props.handleDeleteUser(user.id)}>
                     Delete
                   </button>
                 </div>
