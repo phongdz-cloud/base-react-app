@@ -3,11 +3,19 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiOutlineUpload } from "react-icons/ai";
-const ModalCreateUser = () => {
-  const [show, setShow] = useState(false);
+import axios from "axios";
+const ModalCreateUser = (props) => {
+  const { show, setShow } = props;
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow();
+    setEmail("");
+    setPassword("");
+    setRole("USER");
+    setUsername("");
+    setImage("");
+    setPreviewImage("");
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,12 +33,34 @@ const ModalCreateUser = () => {
     }
   };
 
+  const handleSubmitCreateUser = async () => {
+    //validate
+
+    //call apis
+    // let data = {
+    //   email: email,
+    //   password: password,
+    //   username: username,
+    //   role: role,
+    //   userImage: image,
+    // };
+
+    const form = new FormData();
+    form.append("email", email);
+    form.append("password", password);
+    form.append("username", username);
+    form.append("role", role);
+    form.append("userImage", image);
+
+    let res = await axios.post(
+      "http://localhost:8081/api/v1/participant",
+      form
+    );
+    console.log(">>> check res: ", res);
+  };
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
       <Modal
         className="model-add-user"
         show={show}
@@ -109,8 +139,8 @@ const ModalCreateUser = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
