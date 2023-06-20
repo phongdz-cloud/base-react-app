@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiOutlineUpload } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { postCreateNewUser } from "../../../services/apiServices";
+import { putUpdateUser } from "../../../services/apiServices";
 import _ from "lodash";
 const ModalUpdateUser = (props) => {
   const { show, setShow, fetchListUsers, dataUpdate } = props;
@@ -17,6 +17,7 @@ const ModalUpdateUser = (props) => {
     setUsername("");
     setImage("");
     setPreviewImage("");
+    props.resetUpdateData();
   };
 
   const [email, setEmail] = useState("");
@@ -48,25 +49,7 @@ const ModalUpdateUser = (props) => {
   };
 
   const handleSubmitCreateUser = async () => {
-    //validate
-    const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error("Invalid email");
-      return;
-    }
-
-    if (!password) {
-      toast.error("Invalid password");
-      return;
-    }
-
-    const data = await postCreateNewUser(
-      email,
-      password,
-      username,
-      role,
-      image
-    );
+    const data = await putUpdateUser(dataUpdate.id, username, role, image);
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
@@ -76,14 +59,6 @@ const ModalUpdateUser = (props) => {
     if (data && data.EC !== 0) {
       toast.error(data.EM);
     }
-  };
-
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
   };
 
   return (
