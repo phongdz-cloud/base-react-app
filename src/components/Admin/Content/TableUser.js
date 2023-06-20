@@ -1,6 +1,6 @@
 import React from "react";
 const TableUser = (props) => {
-  const { listUsers } = props;
+  const { listUsers, handleClickBtnUpdate, handleClickBtnView } = props;
   return (
     <>
       <table className="table table-hover table-bordered">
@@ -16,7 +16,7 @@ const TableUser = (props) => {
         <tbody>
           {listUsers &&
             listUsers.length > 0 &&
-            listUsers.map((item, index) => {
+            listUsers.map((item) => {
               return (
                 <tr key={item.id}>
                   <th>{item.id}</th>
@@ -24,10 +24,15 @@ const TableUser = (props) => {
                   <td>{item.email}</td>
                   <td>{item.role}</td>
                   <td>
-                    <button className="btn btn-secondary">View</button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => handleClickBtnView(item)}
+                    >
+                      View
+                    </button>
                     <button
                       className="btn btn-warning mx-3"
-                      onClick={() => props.handleClickBtnUpdate(item)}
+                      onClick={() => handleClickBtnUpdate(item)}
                     >
                       Update
                     </button>

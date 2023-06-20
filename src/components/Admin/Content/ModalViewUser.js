@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiOutlineUpload } from "react-icons/ai";
-import { toast } from "react-toastify";
-import { putUpdateUser } from "../../../services/apiServices";
-import _ from "lodash";
-const ModalUpdateUser = (props) => {
-  const { show, setShow, fetchListUsers, dataUpdate } = props;
+const ModalViewUser = (props) => {
+  const { show, setShow, dataView } = props;
 
   const handleClose = () => {
     setShow();
@@ -28,37 +25,15 @@ const ModalUpdateUser = (props) => {
   const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
-    if (!_.isEmpty(dataUpdate)) {
-      setEmail(dataUpdate.email);
-      setRole(dataUpdate.role);
-      setUsername(dataUpdate.username);
-      if (dataUpdate.image) {
-        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
+    if (!_.isEmpty(dataView)) {
+      setEmail(dataView.email);
+      setRole(dataView.role);
+      setUsername(dataView.username);
+      if (dataView.image) {
+        setPreviewImage(`data:image/jpeg;base64,${dataView.image}`);
       }
     }
-  }, [dataUpdate]);
-
-  const handleUploadImage = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files[0]);
-    } else {
-      setPreviewImage("");
-    }
-  };
-
-  const handleSubmitCreateUser = async () => {
-    const data = await putUpdateUser(dataUpdate.id, username, role, image);
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      handleClose();
-      await fetchListUsers();
-    }
-
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
-    }
-  };
+  }, [dataView]);
 
   return (
     <>
@@ -81,7 +56,6 @@ const ModalUpdateUser = (props) => {
                 className="form-control"
                 value={email}
                 disabled
-                onChange={(event) => setEmail(event.target.value)}
               />
             </div>
             <div className="col-md-6">
@@ -90,7 +64,6 @@ const ModalUpdateUser = (props) => {
                 type="password"
                 className="form-control"
                 disabled
-                onChange={(event) => setPassword(event.target.value)}
                 value={password}
               />
             </div>
@@ -100,16 +73,12 @@ const ModalUpdateUser = (props) => {
                 type="text"
                 className="form-control"
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                disabled
               />
             </div>
             <div className="col-md-4">
               <label className="form-label">Role</label>
-              <select
-                className="form-select"
-                onChange={(event) => setRole(event.target.value)}
-                value={role}
-              >
+              <select className="form-select" value={role} disabled>
                 <option defaultValue="USER" value="USER">
                   USER
                 </option>
@@ -121,12 +90,7 @@ const ModalUpdateUser = (props) => {
               <label className="form-label label-upload" htmlFor="labelUpload">
                 <AiOutlineUpload /> Upload file image
               </label>
-              <input
-                type="file"
-                hidden
-                id="labelUpload"
-                onChange={(event) => handleUploadImage(event)}
-              />
+              <input type="file" hidden id="labelUpload" disabled />
             </div>
 
             <div className="col-md-12 img-preview">
@@ -142,13 +106,10 @@ const ModalUpdateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateUser;
+export default ModalViewUser;
