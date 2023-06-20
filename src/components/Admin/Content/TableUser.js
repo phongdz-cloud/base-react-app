@@ -1,6 +1,11 @@
 import React from "react";
 const TableUser = (props) => {
-  const { listUsers, handleClickBtnUpdate, handleClickBtnView } = props;
+  const {
+    listUsers,
+    handleClickBtnUpdate,
+    handleClickBtnView,
+    handleClickBtnDelete,
+  } = props;
   return (
     <>
       <table className="table table-hover table-bordered">
@@ -36,7 +41,12 @@ const TableUser = (props) => {
                     >
                       Update
                     </button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleClickBtnDelete(item)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
