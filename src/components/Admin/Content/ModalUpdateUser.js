@@ -59,7 +59,6 @@ const ModalUpdateUser = (props) => {
       toast.error(data.EM);
     }
   };
-
   return (
     <>
       <Modal
