@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { AiOutlineUpload } from "react-icons/ai";
 const ModalViewUser = (props) => {
-  const { show, setShow, dataView } = props;
+  const { show, setShow, dataView, resetViewData } = props;
 
   const handleClose = () => {
     setShow();
@@ -14,7 +14,7 @@ const ModalViewUser = (props) => {
     setUsername("");
     setImage("");
     setPreviewImage("");
-    props.resetUpdateData();
+    resetViewData();
   };
 
   const [email, setEmail] = useState("");
