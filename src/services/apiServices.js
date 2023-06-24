@@ -48,7 +48,7 @@ const getQuizByUser = () => {
 };
 
 const getDataQuiz = (id) => {
-  return axios.get(`/api/v1/quiz-by-participant?quizId=${id}`);
+  return axios.get(`/api/v1/questions-by-quiz?quizId=${id}`);
 };
 
 export {
