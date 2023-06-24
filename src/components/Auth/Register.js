@@ -69,7 +69,7 @@ const Register = (props) => {
       <div className="content-form col-4 mx-auto">
         <form>
           <div className="form-group">
-            <label className="form-label">Email</label>
+            <label className="form-label">Email (*)</label>
             <input
               type="email"
               className="form-control"
@@ -78,6 +78,34 @@ const Register = (props) => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
+          </div>
+          <div className="form-group pass-group">
+            <label>Password (*)</label>
+            <div className="input-group">
+              <input
+                type={!visiblePassword ? "password" : "text"}
+                className="form-control"
+                placeholder="Type your password ..."
+                required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+              {!visiblePassword ? (
+                <span
+                  className="icons-eye"
+                  onClick={() => handleVisiblePasword()}
+                >
+                  <BiShow />
+                </span>
+              ) : (
+                <span
+                  className="icons-eye"
+                  onClick={() => handleVisiblePasword()}
+                >
+                  <BiHide />
+                </span>
+              )}
+            </div>
           </div>
           <div className="form-group">
             <label>Username</label>
@@ -89,36 +117,7 @@ const Register = (props) => {
               onChange={(event) => setUsername(event.target.value)}
             />
           </div>
-          <div className="form-group">
-            <label>Password</label>
-            <div className="input-group">
-              <input
-                type={!visiblePassword ? "password" : "text"}
-                className="form-control"
-                placeholder="Type your password ..."
-                required
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <div className="input-group-append">
-                <span className="input-group-text h-100">
-                  {!visiblePassword ? (
-                    <BiShow
-                      cursor="pointer"
-                      size={15}
-                      onClick={() => handleVisiblePasword()}
-                    />
-                  ) : (
-                    <BiHide
-                      cursor="pointer"
-                      size={15}
-                      onClick={() => handleVisiblePasword()}
-                    />
-                  )}
-                </span>
-              </div>
-            </div>
-          </div>
+
           <div className="form-group">
             <button
               className="btn btn-primary col-12"
