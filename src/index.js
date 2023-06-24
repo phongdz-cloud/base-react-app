@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import Layout from "./Layout";
+import "nprogress/nprogress.css";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
