@@ -1,0 +1,29 @@
+.register-container {
+  .header {
+    height: 45px;
+    text-align: right;
+    padding: 5px 100px 0 100px;
+    button {
+      border: none;
+      padding: 3px 15px;
+      margin-left: 15px;
+      border-radius: 5px;
+      background: #f9f9f9;
+      border: 1px solid;
+    }
+  }
+  .title {
+    font-size: 25px;
+    padding: 20px;
+    text-align: center;
+  }
+  .content-form {
+    input {
+      margin-bottom: 15px 0 !important;
+      margin-top: 3px;
+    }
+    button {
+      margin-top: 5px;
+    }
+  }
+}

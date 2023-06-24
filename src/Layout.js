@@ -9,6 +9,7 @@ import HomePage from "./components/Home/HomePage";
 import User from "./components/User/User";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Register from "./components/Auth/Register";
 const Layout = (props) => {
   return (
     <>
@@ -23,6 +24,7 @@ const Layout = (props) => {
         </Route>
 
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
       <ToastContainer
         position="top-right"
