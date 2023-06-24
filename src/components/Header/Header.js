@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const account = useSelector((state) => state.user.account);
 
   const navigate = useNavigate();
 
