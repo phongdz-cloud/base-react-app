@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import "./ManageQuiz.scss";
-import Select from "react-select";
-import { postCreateNewQuiz } from "../../../../services/apiServices";
-import { toast } from "react-toastify";
-import TableQuiz from "./TableQuiz";
 import Accordion from "react-bootstrap/Accordion";
-
+import Select from "react-select";
+import { toast } from "react-toastify";
+import { postCreateNewQuiz } from "../../../../services/apiServices";
+import "./ManageQuiz.scss";
+import TableQuiz from "./TableQuiz";
 const options = [
   { value: "EASY", label: "EASY" },
   { value: "MEDIUM", label: "MEDIUM" },

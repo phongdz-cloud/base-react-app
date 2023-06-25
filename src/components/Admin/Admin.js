@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./Admin.scss";
 import SideBar from "./SideBar";
+import PerfectScrollbar from "react-perfect-scrollbar";
+
 const Admin = (props) => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -17,7 +19,9 @@ const Admin = (props) => {
           <FaBars onClick={() => setCollapsed(!collapsed)} />
         </div>
         <div className="admin-main">
-          <Outlet />
+          <PerfectScrollbar>
+            <Outlet />
+          </PerfectScrollbar>
         </div>
       </div>
     </div>
