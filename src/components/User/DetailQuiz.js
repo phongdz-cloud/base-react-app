@@ -26,6 +26,30 @@ const DetailQuiz = (props) => {
     if (dataQuiz && dataQuiz.length > index + 1) setIndex(index + 1);
   };
 
+  const handleFinishQuiz = () => {
+    let payload = { quizId, answers: [] };
+    let answers = [];
+    if (dataQuiz && dataQuiz.length > 0) {
+      dataQuiz.forEach((question) => {
+        let questionId = +question.questionId;
+        let userAnswerId = [];
+
+        question.answer.forEach((a) => {
+          if (a.isSelected) {
+            userAnswerId.push(a.id);
+          }
+        });
+
+        answers.push({
+          questionId,
+          userAnswerId,
+        });
+      });
+      payload.answers = answers;
+      console.log("final payload: ", payload);
+    }
+  };
+
   const handleHandleCheckBox = (answerId, questionId) => {
     // react hook doesn't merge state
     let dataQuizClone = _.cloneDeep(dataQuiz);
@@ -77,7 +101,6 @@ const DetailQuiz = (props) => {
     }
   };
 
-  console.log(">>> check dataQuiz: ", dataQuiz);
   return (
     <div className="detail-quiz-container">
       <div className="left-content">
@@ -100,7 +123,10 @@ const DetailQuiz = (props) => {
           <button className="btn btn-primary" onClick={() => handleNext()}>
             Next
           </button>
-          <button className="btn btn-warning" onClick={() => handleNext()}>
+          <button
+            className="btn btn-warning"
+            onClick={() => handleFinishQuiz()}
+          >
             Finish
           </button>
         </div>
