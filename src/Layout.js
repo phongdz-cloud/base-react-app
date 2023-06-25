@@ -51,7 +51,6 @@ const Layout = (props) => {
         draggable
         pauseOnHover
       />
-      <ToastContainer />
     </>
   );
 };
