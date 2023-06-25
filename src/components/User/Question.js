@@ -1,14 +1,19 @@
 import React from "react";
 import _ from "lodash";
 const Question = (props) => {
-  const { data, index } = props;
+  const { data, index, handleHandleCheckBox } = props;
   if (_.isEmpty(data)) {
     return <></>;
   }
 
+  const handleCheckbox = (event, aId, qId) => {
+    console.log(">>> data prop", aId, qId);
+    handleHandleCheckBox(aId, qId);
+  };
+
   return (
     <>
-      {data.image && (
+      {data.image ? (
         <div className="q-image">
           <img
             className="card-img-top"
@@ -16,6 +21,8 @@ const Question = (props) => {
             alt="Card image cap"
           />
         </div>
+      ) : (
+        <div className="q-image"></div>
       )}
 
       <div className="question">
@@ -31,7 +38,10 @@ const Question = (props) => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    checked={a.isSelected}
+                    onChange={(event) =>
+                      handleCheckbox(event, a.id, data.questionId)
+                    }
                   />
                   <label className="form-check-label">{a.description}</label>
                 </div>

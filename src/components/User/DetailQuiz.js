@@ -26,6 +26,30 @@ const DetailQuiz = (props) => {
     if (dataQuiz && dataQuiz.length > index + 1) setIndex(index + 1);
   };
 
+  const handleHandleCheckBox = (answerId, questionId) => {
+    // react hook doesn't merge state
+    let dataQuizClone = _.cloneDeep(dataQuiz);
+    let question = dataQuizClone.find(
+      (item) => +item.questionId === +questionId
+    );
+    if (question && question.answer) {
+      question.answer = question.answer.map((item) => {
+        if (item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+      //   console.log(b);
+    }
+    let index = dataQuizClone.findIndex(
+      (item) => +item.questionId === +questionId
+    );
+    if (index > -1) {
+      dataQuizClone[index] = question;
+      setDataQuiz(dataQuizClone);
+    }
+  };
+
   const fetchQuestions = async () => {
     const res = await getDataQuiz(quizId);
     if (res && res.EC === 0) {
@@ -43,6 +67,7 @@ const DetailQuiz = (props) => {
               questionDescription = item.description;
               image = item.image;
             }
+            item.answers.isSelected = false;
             answer.push(item.answers);
           });
           return { questionId: key, answer, questionDescription, image };
@@ -60,11 +85,10 @@ const DetailQuiz = (props) => {
           Quiz {quizId}: {localtion?.state?.quizTitle}
         </div>
         <hr />
-        <div className="q-body">
-          <img />
-        </div>
+        <div className="q-body"></div>
         <div className="q-content">
           <Question
+            handleHandleCheckBox={handleHandleCheckBox}
             data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
             index={index}
           />
@@ -75,6 +99,9 @@ const DetailQuiz = (props) => {
           </button>
           <button className="btn btn-primary" onClick={() => handleNext()}>
             Next
+          </button>
+          <button className="btn btn-warning" onClick={() => handleNext()}>
+            Finish
           </button>
         </div>
       </div>
