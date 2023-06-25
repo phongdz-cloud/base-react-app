@@ -1,31 +1,25 @@
-import "react-pro-sidebar/dist/css/styles.css";
 import {
-  ProSidebar,
   Menu,
   MenuItem,
-  SubMenu,
-  SidebarHeader,
-  SidebarFooter,
+  ProSidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SubMenu,
 } from "react-pro-sidebar";
+import "react-pro-sidebar/dist/css/styles.css";
 
-import {
-  FaTachometerAlt,
-  FaGem,
-  FaList,
-  FaGithub,
-  FaRegLaughWink,
-  FaHeart,
-} from "react-icons/fa";
 import { DiReact } from "react-icons/di";
+import { FaGem, FaGithub } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
-
-import sidebarBg from "../../assets/bg2.jpg";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import sidebarBg from "../../assets/bg2.jpg";
 import "./SideBar.scss";
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
+  const navigate = useNavigate();
   return (
     <>
       <ProSidebar
@@ -49,7 +43,7 @@ const SideBar = (props) => {
             }}
           >
             <DiReact size={"3em"} color={"00bffff"} />
-            <span>Hoi Dan IT</span>
+            <span onClick={() => navigate("/")}>Hoi Dan IT</span>
           </div>
         </SidebarHeader>
 
@@ -66,7 +60,10 @@ const SideBar = (props) => {
                 Quản lý Users
                 <Link to="/admins/manager-users" />
               </MenuItem>
-              <MenuItem>Quản lý Bài Quiz</MenuItem>
+              <MenuItem>
+                Quản lý Bài Quiz
+                <Link to="/admins/manager-quizzes" />
+              </MenuItem>
               <MenuItem>Quản lý Câu Hỏi</MenuItem>
             </SubMenu>
           </Menu>
