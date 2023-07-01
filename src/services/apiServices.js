@@ -86,7 +86,7 @@ const postCreateNewQuestionForQuiz = (quiz_id, description, quizImage) => {
   const data = new FormData();
   data.append("quiz_id", quiz_id);
   data.append("description", description);
-  data.append("quizImage", quizImage);
+  data.append("questionImage", quizImage);
   return axios.post("api/v1/question", data);
 };
 
@@ -100,6 +100,21 @@ const postCreateNewAnswerForQuestion = (
     description,
     correct_answer,
   });
+};
+
+const postAssignQuiz = (quizId, userId) => {
+  return axios.post("api/v1/quiz-assign-to-user", {
+    quizId,
+    userId,
+  });
+};
+
+const getQuizWithQA = (quizId) => {
+  return axios.get(`api/v1/quiz-with-qa/${quizId}`);
+};
+
+const postUpsertQA = (data) => {
+  return axios.post("api/v1/quiz-upsert-qa", { ...data });
 };
 
 export {
@@ -119,4 +134,7 @@ export {
   putUpdateQuiz,
   postCreateNewQuestionForQuiz,
   postCreateNewAnswerForQuestion,
+  postAssignQuiz,
+  getQuizWithQA,
+  postUpsertQA,
 };

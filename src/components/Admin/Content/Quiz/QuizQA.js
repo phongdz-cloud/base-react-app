@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import { GoPlus } from "react-icons/go";
-import { BiMinus } from "react-icons/bi";
-import { AiOutlineMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-import { RiImageAddFill } from "react-icons/ri";
-import { v4 as uuidv4 } from "uuid";
-import Lightbox from "react-awesome-lightbox";
 import _ from "lodash";
-import "./QuizQA.scss";
+import React, { useEffect, useState } from "react";
+import Lightbox from "react-awesome-lightbox";
+import { AiFillPlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { BiMinus } from "react-icons/bi";
+import { GoPlus } from "react-icons/go";
+import { RiImageAddFill } from "react-icons/ri";
+import Select from "react-select";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import {
   getAllQuizForAdmin,
-  postCreateNewAnswerForQuestion,
-  postCreateNewQuestionForQuiz,
+  getQuizWithQA,
+  postUpsertQA,
 } from "../../../../services/apiServices";
-import { toast } from "react-toastify";
+import "./QuizQA.scss";
 
 //BiMinus
 const QuizQA = (props) => {
@@ -44,10 +44,56 @@ const QuizQA = (props) => {
   const [listQuiz, setListQuiz] = useState([]);
 
   const [selectedQuiz, setSelectedQuiz] = useState({});
-
+  console.log(">>> slected quiz: ", selectedQuiz);
   useEffect(() => {
     fetchQuiz();
   }, []);
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) fetchQuizWithQA();
+  }, [selectedQuiz]);
+
+  // return a promise that resolves with a File instance
+  function urltoFile(url, filename, mimeType) {
+    if (url.startsWith("data:")) {
+      var arr = url.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[arr.length - 1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      var file = new File([u8arr], filename, { type: mime || mimeType });
+      return Promise.resolve(file);
+    }
+    return fetch(url)
+      .then((res) => res.arrayBuffer())
+      .then((buf) => new File([buf], filename, { type: mimeType }));
+  }
+
+  const fetchQuizWithQA = async () => {
+    let rs = await getQuizWithQA(selectedQuiz.value);
+    if (rs && rs.EC === 0) {
+      // convert base64 to file object
+      let newQA = [];
+      for (let i = 0; i < rs.DT.qa.length; i++) {
+        let q = rs.DT.qa[i];
+        if (q.imageFile) {
+          q.imageName = `Question-${q.id}.png`;
+          q.imageFile = await urltoFile(
+            `data:image/png;base64,${q.imageFile}`,
+            `Question-${q.id}.png`,
+            "image/png"
+          );
+        }
+        newQA.push(q);
+      }
+      setQuestions(newQA);
+      console.log(">>>> check newQA: ", newQA);
+      console.log(">>> check rs", rs);
+    }
+  };
 
   const fetchQuiz = async () => {
     let res = await getAllQuizForAdmin();
@@ -199,25 +245,38 @@ const QuizQA = (props) => {
       return;
     }
 
-    // submit questions
-    for (const question of questions) {
-      const q = await postCreateNewQuestionForQuiz(
-        +selectedQuiz.value,
-        question.description,
-        question.imageFile
-      );
-      // submit answer
-      for (const answer of question.answers) {
-        await postCreateNewAnswerForQuestion(
-          q.DT.id,
-          answer.description,
-          answer.isCorrect
+    let questionsClone = _.cloneDeep(questions);
+    for (let i = 0; i < questionsClone.length; i++) {
+      if (questionsClone[i].imageFile) {
+        questionsClone[i].imageFile = await toBase64(
+          questionsClone[i].imageFile
         );
       }
     }
-    toast.success("Create question and answers success");
-    setQuestions(initQuestions);
+    console.log("questionsClone: ", questionsClone);
+
+    // submit questions
+
+    let res = await postUpsertQA({
+      quizId: selectedQuiz.value,
+      questions: questionsClone,
+    });
+
+    if (res && res.EC === 0) {
+      toast.success(res.EM);
+      await fetchQuizWithQA();
+    }
   };
+
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+  console.log(">>> check questionClone: ", questions);
 
   return (
     <div className="questions-container">
