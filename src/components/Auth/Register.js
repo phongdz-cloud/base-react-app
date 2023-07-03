@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BiShow, BiHide } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { postRegister } from "../../services/apiServices";
+import Language from "../Header/Language";
 const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +63,7 @@ const Register = (props) => {
         >
           Log in
         </button>
+        <Language />
       </div>
       <div className="title col-4 mx-auto">
         <b>Đăng ký</b>

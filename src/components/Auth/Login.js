@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 import { FaSpinner } from "react-icons/fa";
+import Language from "../Header/Language";
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -67,6 +68,7 @@ const Login = (props) => {
         >
           Sign up
         </button>
+        <Language />
       </div>
       <div className="title col-4 mx-auto">Hỏi Dân IT &amp; Eric</div>
       <div className="welcome col-4 mx-auto">Hello, who's this?</div>

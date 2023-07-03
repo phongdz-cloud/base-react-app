@@ -14,7 +14,7 @@ import HomePage from "./components/Home/HomePage";
 import DetailQuiz from "./components/User/DetailQuiz";
 import ListQuiz from "./components/User/ListQuiz";
 import PrivateRoute from "./routes/PrivateRoute";
-
+import { Suspense } from "react";
 export const NotFound = () => {
   return (
     <div className="container mt-3 alert alert-danger">
@@ -25,7 +25,7 @@ export const NotFound = () => {
 
 const Layout = (props) => {
   return (
-    <>
+    <Suspense>
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
@@ -70,7 +70,7 @@ const Layout = (props) => {
         draggable
         pauseOnHover
       />
-    </>
+    </Suspense>
   );
 };
 

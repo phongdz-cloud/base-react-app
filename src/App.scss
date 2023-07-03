@@ -18,6 +18,11 @@ body {
     max-width: 1450px !important;
   }
 }
+.languages {
+  .dropdown-toggle::after {
+    display: none;
+  }
+}
 
 .app-container {
   .header-container {
