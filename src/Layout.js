@@ -6,14 +6,13 @@ import App from "./App";
 import Admin from "./components/Admin/Admin";
 import DashBoard from "./components/Admin/Content/DashBoard";
 import ManageUser from "./components/Admin/Content/ManageUser";
+import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz";
+import Questions from "./components/Admin/Content/Qusetion/Questions";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import HomePage from "./components/Home/HomePage";
-import ListQuiz from "./components/User/ListQuiz";
 import DetailQuiz from "./components/User/DetailQuiz";
-import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz";
-import Questions from "./components/Admin/Content/Qusetion/Questions";
-import Test1 from "./routes/Test1";
+import ListQuiz from "./components/User/ListQuiz";
 import PrivateRoute from "./routes/PrivateRoute";
 
 export const NotFound = () => {
