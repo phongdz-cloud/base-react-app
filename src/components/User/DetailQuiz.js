@@ -58,8 +58,6 @@ const DetailQuiz = (props) => {
       // submit api
       let res = await postSubmitQuiz(payload);
 
-      console.log("check res: ", res);
-
       if (res && res.EC === 0) {
         setDataModalResult({
           countCorrect: res.DT.countCorrect,
@@ -117,6 +115,8 @@ const DetailQuiz = (props) => {
             item.answers.isSelected = false;
             answer.push(item.answers);
           });
+
+          answer = _.orderBy(answer, ["id", ["asc"]]);
           return { questionId: key, answer, questionDescription, image };
         })
         .value();
